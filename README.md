@@ -32,7 +32,7 @@ rm -rf sox.rpm
 
 ## Using PHP
 
-``php
+```php
 <?php
 include "AudioToImage.php";
 $wave2png = new AudioToImage("suara.wav");
@@ -43,4 +43,4 @@ imagepng($image);
 // i.e.
 // imagepng($image, "suara.png");
 ?>
-``
+```
