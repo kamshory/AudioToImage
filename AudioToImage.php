@@ -73,9 +73,4 @@ class AudioToImage{
 	}
 }
 
-$wave2png = new AudioToImage("suara.wav");
-$image = $wave2png->generate_png();
-header("Content-Type: image/png");
-imagepng($image);
-
 ?>
