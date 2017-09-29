@@ -10,14 +10,16 @@ Before using this program, you must first install "Lame" and "Sox". Lame is need
 To install Lame, download RPM from the repository then install it on your server.
 
 ```bash
-cd /opt 
+cd /var/development
+mkdir /var/development/sox
+cd /var/development/lame
 curl --location http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz > lame-3.99.5.tar.gz
 tar zxvf lame-3.99.5.tar.gz 
 cd lame-3.99.5
 ./configure 
 make 
 make install
-cd /opt 
+cd /var/development/lame
 rm -rf lame-3.99.5.tar.gz 
 rm -rf lame-3.99.5
 ```
