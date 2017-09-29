@@ -41,6 +41,10 @@ rm -rf sox.rpm
 ```php
 <?php
 include "AudioToImage.php";
+
+// convert mp3 to wav
+shell_exec("lame --decode suara.mp3");
+
 $wave2png = new AudioToImage("suara.wav");
 $image = $wave2png->generate_png();
 header("Content-Type: image/png");
