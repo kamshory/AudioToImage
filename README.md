@@ -9,6 +9,7 @@ Before using this program, you must first install "Lame" and "Sox". Lame is need
 
 To install Lame, download RPM from the repository then install it on your server.
 
+```bash
 cd /opt 
 curl --location http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz > lame-3.99.5.tar.gz
 tar zxvf lame-3.99.5.tar.gz 
@@ -19,9 +20,11 @@ make install
 cd /opt 
 rm -rf lame-3.99.5.tar.gz 
 rm -rf lame-3.99.5
+```
 
 To install SoX, download RPM from the repository then install it on your server.
 
+```bash
 cd /var/development
 mkdir /var/development/sox
 cd /var/development/sox
@@ -29,6 +32,7 @@ curl --location http://vault.centos.org/7.3.1611/os/Source/SPackages/sox-14.4.1-
 rpm -Uvh sox.rpm
 yum install -y sox
 rm -rf sox.rpm
+```
 
 ## Using PHP
 
