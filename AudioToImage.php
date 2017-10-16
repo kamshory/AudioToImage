@@ -50,6 +50,46 @@ class AudioToImage{
 		}
 		return $data2;
 	}
+	function generate_html()
+	{
+		$data = shell_exec("sox $this->input_file -b $this->bit_depth -c $this->number_of_channel -r $this->sample_rate -t raw - | od -t u1 -v - | cut -c 9- | sed -e 's/\ / /g' -e 's/ / /g' -e 's/ /,/g' | tr '\n' ','");
+		$data = str_replace(",,", ",0,", $data); 
+		$data = str_replace(",,", ",0,", $data); 
+		$data = str_replace(",,", ",0,", $data); 
+		$data = str_replace(",,", ",0,", $data); 
+		$data = trim($data, ",");
+		$wave = explode(",", $data);
+		$wave = normalization_data($data);
+		$number_of_sample = count($wave);
+		$factor = $number_of_sample/$this->image_width; // float
+		$samples = array();
+		$image = imagecreatetruecolor($this->image_width, $this->image_height);
+		
+		$x1 = 0; $y1 = 0; $x2 = $this->image_width - 1; $y2 = $this->image_height - 1;
+		$white = imagecolorallocate($image, 255, 255, 255);
+		$black = imagecolorallocate($image, 0, 0, 0);
+		ImageFilledRectangle($image , $x1 , $y1 , $x2 , $y2 , $white);
+		$html = "<span style=\"display:inline-block;\">";
+		for($i = 0; $i < $this->image_width; $i++)
+		{
+			$j = round($factor*$i);
+			if($j < 0)
+			{
+				$j = 0;
+			}
+			if($j >= $number_of_sample)
+			{
+				$j = $number_of_sample - 1;
+			}
+			$samples[$i] = round($wave[$j] * $this->image_height / 256);
+			
+			$html .= "<span style=\"display:inline-block; vertical-align:middle; background-color:#069; width:1px; height:".$samples[$i]."px;\"></span>";
+			
+		}
+		$html .= "</span>";
+		imagecolortransparent($image, $white);
+		return $image;
+	}
 	function generate_png()
 	{
 		$data = shell_exec("sox $this->input_file -b $this->bit_depth -c $this->number_of_channel -r $this->sample_rate -t raw - | od -t u1 -v - | cut -c 9- | sed -e 's/\ / /g' -e 's/ / /g' -e 's/ /,/g' | tr '\n' ','");
