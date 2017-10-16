@@ -69,7 +69,9 @@ class AudioToImage{
 		$white = imagecolorallocate($image, 255, 255, 255);
 		$black = imagecolorallocate($image, 0, 0, 0);
 		ImageFilledRectangle($image , $x1 , $y1 , $x2 , $y2 , $white);
-		$html = "<span style=\"display:inline-block;\">";
+		$html = "";
+		$html .= "<span style=\"padding:0px; display:inline-block; border:1px solid #DDDDDD; margin:10px 0; height:".$this->image_height."px;\">";
+		$html .= "<span style=\"display:table-cell; height:".$this->image_height."px; line-height:".$this->image_height."px; vertical-align:middle;\">";
 		for($i = 0; $i < $this->image_width; $i++)
 		{
 			$j = round($factor*$i);
@@ -86,6 +88,7 @@ class AudioToImage{
 			$html .= "<span style=\"display:inline-block; vertical-align:middle; background-color:#069; width:1px; height:".$samples[$i]."px;\"></span>";
 			
 		}
+		$html .= "</span>";
 		$html .= "</span>";
 		imagecolortransparent($image, $white);
 		return $image;
