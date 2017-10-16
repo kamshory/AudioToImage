@@ -33,6 +33,23 @@ class AudioToImage{
 	{
 		$this->image_height = $image_height;
 	}
+	function normalization_data($data1)
+	{
+		$data2 = $data1;
+		$ndata = count($data1);
+		if($ndata >= 5)
+		{
+			for($i = 2; $i<$ndata-5; $i++)
+			{
+				$data2[$i] = round(($data2[$i-2] + ($data2[$i-1]*2) + ($data2[$i]*5) + ($data2[$i+1]*2) + $data2[$i+2]) / 11); 
+			}
+			$data2[0] = round((($data1[0]*7) + ($data1[1]*2) + $data1[2])/10);
+			$data2[1] = round((($data1[0]*2) + ($data1[1]*7) + ($data1[2]*2) + $data1[3])/12);
+			$data2[$ndata-1] = round((($data1[$ndata-1]*7) + ($data1[$ndata-2]*2) + $data1[$ndata-3])/10);
+			$data2[$ndata-2] = round((($data1[$ndata-1]*2) + ($data1[$ndata-2]*7) + ($data1[$ndata-3]*2) + $data1[$ndata-4])/12);
+		}
+		return $data2;
+	}
 	function generate_png()
 	{
 		$data = shell_exec("sox $this->input_file -b $this->bit_depth -c $this->number_of_channel -r $this->sample_rate -t raw - | od -t u1 -v - | cut -c 9- | sed -e 's/\ / /g' -e 's/ / /g' -e 's/ /,/g' | tr '\n' ','");
@@ -42,6 +59,7 @@ class AudioToImage{
 		$data = str_replace(",,", ",0,", $data); 
 		$data = trim($data, ",");
 		$wave = explode(",", $data);
+		$wave = normalization_data($data);
 		$number_of_sample = count($wave);
 		$factor = $number_of_sample/$this->image_width; // float
 		$samples = array();
