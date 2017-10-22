@@ -52,7 +52,7 @@ class WaveToPNG{
 	}
 	function generate_html()
 	{
-		$command = "sox $this->input_file -b $this->bit_depth -c $this->number_of_channel -r $this->sample_rate -t raw - | od -t u1 -v - | cut -c 9- | sed -e 's/\ / /g' -e 's/ / /g' -e 's/ /,/g' | tr '\n' ','";
+		$command = "sox $this->input_file -b $this->bit_depth -c $this->number_of_channel -r $this->sample_rate -t raw - | od -t u1 -v - | cut -c 9- | sed -e 's/\ / /g' -e 's/ / /g' -e 's/ /,/g' | tr '\\n' ','";
 		$data = shell_exec($command);
 		$data = str_replace(",,", ",0,", $data); 
 		$data = str_replace(",,", ",0,", $data); 
@@ -98,7 +98,8 @@ class WaveToPNG{
 		{
 			$this->image_height = $height;
 		}
-		$data = shell_exec("sox $this->input_file -b $this->bit_depth -c $this->number_of_channel -r $this->sample_rate -t raw - | od -t u1 -v - | cut -c 9- | sed -e 's/\ / /g' -e 's/ / /g' -e 's/ /,/g' | tr '\n' ','");
+		$command = "sox $this->input_file -b $this->bit_depth -c $this->number_of_channel -r $this->sample_rate -t raw - | od -t u1 -v - | cut -c 9- | sed -e 's/\ / /g' -e 's/ / /g' -e 's/ /,/g' | tr '\\n' ','";
+		$data = shell_exec($command);
 		$data = str_replace(",,", ",0,", $data); 
 		$data = str_replace(",,", ",0,", $data); 
 		$data = str_replace(",,", ",0,", $data); 
